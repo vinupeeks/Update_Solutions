@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db.js');
-const AdminLeaves = require('./routes/samRoutes.js');
+const cctvDetails = require('./routes/UserRoutes.js');
 
 const cors = require('cors');
 require('dotenv').config();
@@ -17,10 +17,9 @@ app.use(express.json());
 // // Admin Routes 
 // app.use('/users', UserRoutes);
 
-// app.use('/admin-absence', AdminAbsence); 
 
 // // User Routes
-// app.use('/User-works', UserWorks); 
+app.use('/CCTV-Details', cctvDetails);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
