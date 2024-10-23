@@ -17,10 +17,9 @@ app.use(express.json());
 // // Admin Routes 
 // app.use('/users', UserRoutes);
 
-// app.use('/admin-absence', AdminAbsence); 
 
 // // User Routes
-// app.use('/User-works', UserWorks); 
+app.use('/CCTV-Details', cctvDetails);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
