@@ -4,4 +4,6 @@ const router=new express.Router()
 
 const mobileDetailController=require('../controllers/mobileDetailController')
 
-router.post('/user/',multerconfigure.single('image'),mobileDetailController.addMobileDetails)
+router.post('/add/mobile',multerconfigure.single('mobile_img'),mobileDetailController.addMobileDetails)
+
+module.exports = router;
