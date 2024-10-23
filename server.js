@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db.js');
-const AdminLeaves = require('./routes/mobileDetailsRoutes.js');
+const mobileDetails = require('./routes/mobileDetailsRoutes.js');
 const cctvDetails = require('./routes/cctvRoutes.js')
 const productDetails = require('./routes/ProductRoutes.js')
 
