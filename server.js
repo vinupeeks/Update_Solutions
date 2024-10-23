@@ -17,7 +17,7 @@ app.use(express.json());
 // app.use('/auth', authRoutes)
 // // Admin Routes 
 // app.use('/users', UserRoutes);
-
+   
 
 // // User Routes
 app.use('/CCTV-Details', cctvDetails);
