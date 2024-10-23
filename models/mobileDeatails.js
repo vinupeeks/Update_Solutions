@@ -14,6 +14,9 @@ const mobileDeatilsSchema=new mongoose.Schema({
     mobile_img:{
         type:String,
     }
+},
+{
+    timestamps: true
 })
 
 const Mobile_Details= mongoose.model("Mobile Deatils ",mobileDeatilsSchema)
