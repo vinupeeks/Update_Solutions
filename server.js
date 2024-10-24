@@ -3,6 +3,7 @@ const connectDB = require('./config/db.js');
 const mobileDetails = require('./routes/mobileDetailsRoutes.js');
 const cctvDetails = require('./routes/cctvRoutes.js')
 const productDetails = require('./routes/ProductRoutes.js')
+const accessoryDetails=require('./routes/accessoryRoutes.js')
 
 const cors = require('cors');
 require('dotenv').config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/users',mobileDetails)
 // // Admin Routes 
 // app.use('/users', UserRoutes);
+app.use('/admin',accessoryDetails)
 
 
 // // User Routes
