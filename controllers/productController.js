@@ -23,7 +23,7 @@ exports.createProduct = async (req, res) => {
 };
 
 // Get all products
-exports.getProductsAc = async (req, res) => {
+exports.getProductsAC = async (req, res) => {
     try {
         const products = await CctvModal.find({ productName: 'AC' })
             .select(`-createdAt -updatedAt`); // Fetch all products
