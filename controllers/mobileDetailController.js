@@ -1,6 +1,8 @@
 const mobile_dts = require('../models/mobileDetails');
 const user_dts = require('../models/User');
 const UserMobileDetails = require('../models/service'); 
+
+// add mobile service with mobile and user details
 exports.addMobileDetails = async (req, res) => {
     try {
         const { model_name, company_name, name, mobileNumber, houseName, state, district, pincode } = req.body;
@@ -78,5 +80,24 @@ exports.addMobileDetails = async (req, res) => {
     } catch (error) {
         console.error('Error occurred while adding mobile details:', error); 
         res.status(500).json({ error: `An error occurred: ${error.message}` });
+    }
+};
+
+// get mobile service details
+exports.getMobileDetails = async (req, res) => {
+    try {
+      
+        const allMobileDetails = await UserMobileDetails.find()
+            .populate('userId')       
+            .populate('mobileId')    
+
+        if (!allMobileDetails || allMobileDetails.length === 0) {
+            return res.status(404).json({ message: 'No mobile details found' });
+        }
+
+        return res.status(200).json(allMobileDetails);
+    } catch (error) {
+        console.error('Error fetching mobile details:', error);
+        return res.status(500).json({ message: 'An error occurred while fetching mobile details', error: error.message });
     }
 };
