@@ -9,5 +9,4 @@ router.post('/add/mobile',multerconfigure.single('mobile_img'),mobileDetailContr
 
 // get mobile service details
 router.get('/get/mobile',mobileDetailController.getMobileDetails)
-
 module.exports = router;

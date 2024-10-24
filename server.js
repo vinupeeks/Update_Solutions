@@ -20,7 +20,7 @@ app.use(express.json());
 app.use('/users',mobileDetails)
 // // Admin Routes 
 // app.use('/users', UserRoutes);
-app.use('/admin',accessoryDetails)
+app.use('/accessory',accessoryDetails)
 
 
 // // User Routes
