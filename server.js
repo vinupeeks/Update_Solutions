@@ -1,7 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db.js');
 const mobileDetails = require('./routes/mobileDetailsRoutes.js');
-const cctvDetails = require('./routes/cctvRoutes.js')
+const cctvDetails = require('./routes/cctv_AcRoutes.js')
 const productDetails = require('./routes/ProductRoutes.js')
 const accessoryDetails=require('./routes/accessoryRoutes.js')
 
@@ -24,7 +24,7 @@ app.use('/accessory',accessoryDetails)
 
 
 // // User Routes
-app.use('/CCTV-Details', cctvDetails);
+app.use('/CCTV-Ac', cctvDetails);
 app.use('/product-details', productDetails);
 
 // using upload folder that contain images
