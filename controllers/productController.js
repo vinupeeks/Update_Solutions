@@ -23,9 +23,9 @@ exports.createProduct = async (req, res) => {
 };
 
 // Get all products
-exports.getProducts = async (req, res) => {
+exports.getProductsAC = async (req, res) => {
     try {
-        const products = await CctvModal.find()
+        const products = await CctvModal.find({ productName: 'AC' })
             .select(`-createdAt -updatedAt`); // Fetch all products
         res.status(200).json(products);
     } catch (error) {
@@ -33,6 +33,16 @@ exports.getProducts = async (req, res) => {
     }
 };
 
+// Get all products
+exports.getProductsCCTV = async (req, res) => {
+    try {
+        const products = await CctvModal.find({ productName: 'CCTV' })
+            .select(`-createdAt -updatedAt`); // Fetch all products
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 // Get a product by ID
 exports.getProductById = async (req, res) => {
     try {
