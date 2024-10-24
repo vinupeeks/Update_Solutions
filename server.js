@@ -25,5 +25,8 @@ app.use('/users',mobileDetails)
 app.use('/CCTV-Details', cctvDetails);
 app.use('/product-details', productDetails);
 
+// using upload folder that contain images
+app.use('/uploads',express.static('./uploads'))
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
