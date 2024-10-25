@@ -32,7 +32,7 @@ const protect = async (req, res, next) => {
     }
 };
 
-// Login a user
+// Login admin
 const loginAdmin = async (req, res) => {
     const { email, password } = req.body;
 
