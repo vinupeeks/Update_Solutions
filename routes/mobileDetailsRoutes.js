@@ -5,8 +5,16 @@ const router=new express.Router()
 const mobileDetailController=require('../controllers/mobileDetailController')
 
 // post mobile service details with user and mobile details
-router.post('/add/mobile',multerconfigure.single('mobile_img'),mobileDetailController.addMobileDetails)
+router.post('/add/service',multerconfigure.single('mobile_img'),mobileDetailController.addMobileDetails)
 
 // get mobile service details
-router.get('/get/mobile',mobileDetailController.getMobileDetails)
+router.get('/get/service',mobileDetailController.getMobileDetails)
+
+// update mobileservice status
+router.put('/update/status/:id',mobileDetailController.updateMobileService)
+
+// delete service
+router.delete('/delete/service/:id',mobileDetailController.deleteMobileService)
+
+
 module.exports = router;

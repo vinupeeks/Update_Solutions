@@ -11,7 +11,7 @@ const mobileDetailsSchema = new mongoose.Schema({
     },
     mobile_img: {
         type: String,
-    }
+    },
 }, {
     timestamps: true 
 });

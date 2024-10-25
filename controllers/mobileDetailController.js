@@ -101,3 +101,42 @@ exports.getMobileDetails = async (req, res) => {
         return res.status(500).json({ message: 'An error occurred while fetching mobile details', error: error.message });
     }
 };
+
+// update service status
+exports.updateMobileService=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const updatedstatus = await UserMobileDetails.findByIdAndUpdate(
+            id, 
+            { status:'completed' },
+            { new: true } 
+        )
+        if (!updatedstatus) {
+            return res.status(404).json({ message: "service not found" });
+        }
+        
+        await updatedstatus.save();
+        res.status(201).json(updatedstatus);
+  
+    } catch (error) {
+        console.error('Error updating mobileservice status:', error);
+        return res.status(500).json({ message: 'An error occurred while updating mobileservice status', error: error.message });
+    }
+}
+
+// delete services
+exports.deleteMobileService=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const deletedService = await UserMobileDetails.findByIdAndDelete({_id:id})
+        if (!deletedService) {
+            return res.status(404).json({ message: "service not found" });
+        }
+        
+        res.status(200).json(deletedService);
+  
+    } catch (error) {
+        console.error('Error deleting mobileservice :', error);
+        return res.status(500).json({ message: 'An error occurred while deleting mobileservice ', error: error.message });
+    }
+}
