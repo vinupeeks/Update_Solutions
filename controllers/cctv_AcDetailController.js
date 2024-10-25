@@ -101,6 +101,44 @@ exports.getAc_CctvDetails = async (req, res) => {
     }
 };
 
+exports.updateService=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const updatedstatus = await Ac_CctvDetailsSchema.findByIdAndUpdate(
+            id, 
+            { status:'completed' },
+            { new: true } 
+        )
+        if (!updatedstatus) {
+            return res.status(404).json({ message: "service not found" });
+        }
+        
+        await updatedstatus.save();
+        res.status(201).json(updatedstatus);
+  
+    } catch (error) {
+        console.error('Error updating service status:', error);
+        return res.status(500).json({ message: 'An error occurred while updating service status', error: error.message });     
+    }
+}
+
+// delete service
+exports.deleteService=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const deletedService = await Ac_CctvDetailsSchema.findByIdAndDelete({_id:id})
+        if (!deletedService) {
+            return res.status(404).json({ message: "service not found" });
+        }
+        res.status(200).json(deletedService);
+  
+    } catch (error) {
+        console.error('Error deleting service :', error);
+        return res.status(500).json({ message: 'An error occurred while deleting service ', error: error.message });
+    }
+}
+
+
 
 exports.addcctvDetails = (req, res) => addServiceDetails('CCTV', req, res);
 

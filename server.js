@@ -4,6 +4,7 @@ const mobileDetails = require('./routes/mobileDetailsRoutes.js');
 const cctvDetails = require('./routes/cctv_AcRoutes.js')
 const productDetails = require('./routes/ProductRoutes.js')
 const accessoryDetails=require('./routes/accessoryRoutes.js')
+const categoryDetails=require('./routes/CategoryRoutes.js')
 
 const cors = require('cors');
 require('dotenv').config();
@@ -17,10 +18,11 @@ app.use(express.json());
 
 // Route
 // app.use('/auth', authRoutes)
-app.use('/users',mobileDetails)
+app.use('/mobile',mobileDetails)
 // // Admin Routes 
 // app.use('/users', UserRoutes);
 app.use('/accessory',accessoryDetails)
+app.use('/category',categoryDetails)
 
 
 // // User Routes

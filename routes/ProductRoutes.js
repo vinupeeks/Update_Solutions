@@ -11,11 +11,11 @@ router.get('/AC', productController.getProductsAC);
 
 router.put('/brands/add/:productId', productController.addBrands);
 
-router.put('/service/add/:productId', productController.addservices);
+router.put('/service/add/:productId', productController.addServices);
 
 router.delete('/brand/delete/:productId', productController.deleteBrand);
 
-router.delete('/service/delete/:productId', productController.deleteBrand);
+router.delete('/service/delete/:productId', productController.deleteService);
 
 
 
