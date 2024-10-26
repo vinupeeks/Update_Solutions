@@ -14,14 +14,20 @@ const accessorySchema = new Schema({
         type: String,
         required: true,
     },
-    color: {
+    color:[ {
         type: String,
         required: true,
-    },
-    image:{
+    }],
+    image: [{
         type: String,
-        required: true, 
-    },
+        required: true,
+        validate: {
+            validator: function(images) {
+                return images.length > 5;
+            },
+            message: 'You can only have a maximum of 5 images.'
+        }
+    }],
     description: {
         type: String,
     },

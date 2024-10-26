@@ -5,6 +5,7 @@ const cctvDetails = require('./routes/cctv_AcRoutes.js')
 const productDetails = require('./routes/ProductRoutes.js')
 const accessoryDetails=require('./routes/accessoryRoutes.js')
 const categoryDetails=require('./routes/CategoryRoutes.js')
+const adminDetails=require('./routes/adminRoutes.js')
 
 const cors = require('cors');
 require('dotenv').config();
@@ -18,16 +19,18 @@ app.use(express.json());
 
 // Route
 // app.use('/auth', authRoutes)
-app.use('/mobile',mobileDetails)
-// // Admin Routes 
+
+//  Admin Routes 
 // app.use('/users', UserRoutes);
-app.use('/accessory',accessoryDetails)
+app.use('/admin',adminDetails)
 app.use('/category',categoryDetails)
+app.use('/product-details', productDetails);
 
 
 // // User Routes
+app.use('/mobile',mobileDetails)
 app.use('/CCTV-Ac', cctvDetails);
-app.use('/product-details', productDetails);
+app.use('/accessory',accessoryDetails)
 
 // using upload folder that contain images
 app.use('/uploads',express.static('./uploads'))
