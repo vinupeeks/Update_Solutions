@@ -32,3 +32,6 @@ coverage/
 
 # Jest test results
 jest-test-results.json
+
+# Uploaded files
+uploads/ 

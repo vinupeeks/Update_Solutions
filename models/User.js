@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true, trim: true },
-    mobileNumber: { type: String, required: true, trim: true, unique: true, match: [/^\d{10}$/, 'Please enter a valid 10-digit mobile number'] },
+    mobileNumber: { type: String, required: true, trim: true, match: [/^\d{10}$/, 'Please enter a valid 10-digit mobile number'] },
     houseName: { type: String, required: true, trim: true },
     state: { type: String, required: true, trim: true },
     district: { type: String, required: true, trim: true },
@@ -14,3 +14,4 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+    
