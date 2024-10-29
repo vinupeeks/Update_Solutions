@@ -15,8 +15,9 @@ exports.createProduct = async (req, res) => {
 
         // Save to the database
         await newProduct.save();
+        const { createdAt, updatedAt, ...responseProduct } = newProduct.toObject();
 
-        res.status(201).json({ message: 'Product created successfully', product: newProduct });
+        res.status(201).json({ message: 'Product created successfully', product: responseProduct });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -46,7 +47,8 @@ exports.getProductsCCTV = async (req, res) => {
 // Get a product by ID
 exports.getProductById = async (req, res) => {
     try {
-        const product = await productCollection.findById(req.params.id);
+        const product = await productCollection.findById(req.params.id)
+            .select(`-createdAt -updatedAt `);
 
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
@@ -60,7 +62,7 @@ exports.getProductById = async (req, res) => {
 
 // add brands
 exports.addBrands = async (req, res) => {
-    const { productId } = req.params;  
+    const { productId } = req.params;
     const { brands } = req.body;
 
     try {
@@ -77,7 +79,7 @@ exports.addBrands = async (req, res) => {
         }
         const updateBrand = await productCollection.findByIdAndUpdate(
             productId,
-            { $push: { brands: { $each: newBrands } } }, 
+            { $push: { brands: { $each: newBrands } } },
             { new: true }
         ).select('-createdAt -updatedAt');
 
@@ -90,8 +92,9 @@ exports.addBrands = async (req, res) => {
 
 
 // add services
-exports.addServices = async (req, res) => { 
-    const { productId } = req.params;  
+
+exports.addServices = async (req, res) => {
+    const { productId } = req.params;
     const { services } = req.body;
     try {
         const product = await productCollection.findById(productId);
@@ -106,7 +109,7 @@ exports.addServices = async (req, res) => {
         }
         const updatedProduct = await productCollection.findByIdAndUpdate(
             productId,
-            { $push: { services: { $each: newServices } } }, 
+            { $push: { services: { $each: newServices } } },
             { new: true }
         ).select('-createdAt -updatedAt');
         res.status(201).json({ message: "Services added successfully", updatedProduct });
@@ -114,7 +117,6 @@ exports.addServices = async (req, res) => {
         res.status(500).json({ message: `Error occurred due to: ${error.message}` });
     }
 };
-
 
 // delete brand 
 exports.deleteBrand = async (req, res) => {
@@ -151,7 +153,7 @@ exports.deleteService = async (req, res) => {
     const { serviceName } = req.body;
 
     try {
-        
+
         const product = await productCollection.findById(productId);
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
@@ -182,4 +184,4 @@ exports.deleteService = async (req, res) => {
 
 
 
- 
+

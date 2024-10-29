@@ -1,10 +1,10 @@
-const Admin=require('../models/AdminModel')
+const Admin = require('../models/AdminModel')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 
 exports.RegisterAdmin = async (req, res) => {
-    const { name,email, password } = req.body;
+    const { name, email, password } = req.body;
     try {
         const existingAdmin = await Admin.findOne({ email });
         if (existingAdmin) {
@@ -18,9 +18,11 @@ exports.RegisterAdmin = async (req, res) => {
             role: 'admin',
         });
         await adminUser.save();
-        res.status(201).json({ message: 'Admin registered successfully',adminUser });
+        const { password: _, ...adminResponse } = adminUser.toObject();
+
+        res.status(201).json({ message: 'Admin registered successfully', adminResponse });
     } catch (error) {
-        console.error('Error registering admin:', error);
+        // console.error('Error registering admin:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };

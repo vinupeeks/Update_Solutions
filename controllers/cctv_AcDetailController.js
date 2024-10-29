@@ -1,11 +1,11 @@
 const cctv_acModel = require('../models/cctv_acDetailModel');
 const user_dts = require('../models/User');
-const Ac_CctvDetailsSchema = require('../models/Ac_CctvService'); 
+const Ac_CctvDetailsSchema = require('../models/Ac_CctvService');
 
 // Common function to validate user details
 const validateUserDetails = (userData) => {
     const { name, mobileNumber, houseName, state, district, pincode } = userData;
-    
+
     if (!name || name.trim() === '') {
         return 'Name is required.';
     }
@@ -27,23 +27,30 @@ const validateUserDetails = (userData) => {
     return null;
 };
 
-// Function to add service details
+// Function to add service details 
 const addServiceDetails = async (serviceType, req, res) => {
-    const { brand, description, name, mobileNumber, houseName, state, district, pincode } = req.body;
+    const { brand, service, description, name, mobileNumber, houseName, state, district, pincode } = req.body;
 
     if (!serviceType || !brand || !description) {
         return res.status(400).json({ error: 'All fields for service details are required.' });
     }
 
     const newServiceDetails = new cctv_acModel({
-        service_type: serviceType,
-        product_type: serviceType === 'CCTV' ? 'CCTV' : 'AC',  
+        service_type: service,
+        product_type: serviceType === 'CCTV' ? 'CCTV' : 'AC',
         brand,
         description,
     });
 
     try {
         await newServiceDetails.save();
+
+        detailsResponse = newServiceDetails.toObject();
+        delete detailsResponse.createdAt;
+        delete detailsResponse.updatedAt;
+        delete detailsResponse._id;
+        delete detailsResponse.__v;
+
     } catch (error) {
         console.error(`Error saving ${serviceType.toLowerCase()} details:`, error);
         return res.status(500).json({ error: `Failed to save ${serviceType.toLowerCase()} details.` });
@@ -57,6 +64,13 @@ const addServiceDetails = async (serviceType, req, res) => {
 
     try {
         await newUser.save();
+
+        userResponse = newUser.toObject();
+        delete userResponse.createdAt;
+        delete userResponse.updatedAt;
+        delete userResponse._id;
+        delete userResponse.__v;
+
     } catch (error) {
         console.error('Error saving user:', error);
         return res.status(500).json({ error: 'Failed to create user.' });
@@ -69,6 +83,12 @@ const addServiceDetails = async (serviceType, req, res) => {
 
     try {
         await serviceDetailsSchema.save();
+        serviceResponse = serviceDetailsSchema.toObject();
+        delete serviceResponse.createdAt;
+        delete serviceResponse.updatedAt;
+        delete serviceResponse._id;
+        delete serviceResponse.__v;
+
     } catch (error) {
         console.error('Error saving service-user relationship:', error);
         return res.status(500).json({ error: 'Failed to save service-user relationship.' });
@@ -76,19 +96,20 @@ const addServiceDetails = async (serviceType, req, res) => {
 
     return res.status(201).json({
         message: `${serviceType} details added successfully and user created.`,
-        serviceDetails: newServiceDetails,
-        user: newUser,
-        serviceDetailsRelation: serviceDetailsSchema,
+        serviceDetails: detailsResponse,
+        user: userResponse,
+        serviceDetailsRelation: serviceResponse,
     });
 };
 
 // get ac/cctv services
 exports.getAc_CctvDetails = async (req, res) => {
     try {
-      
+
         const allserviceDetails = await Ac_CctvDetailsSchema.find()
-            .populate('userId')       
-            .populate('Ac_cctvId')    
+            .populate({ path: `userId`, select: '-_id -createdAt -updatedAt -__v' })
+            .populate({ path: 'Ac_cctvId', select: '-_id -createdAt -updatedAt -__v' })
+            .select(`-createdAt -updatedAt -__v`)
 
         if (!allserviceDetails || allserviceDetails.length === 0) {
             return res.status(404).json({ message: 'No service details found' });
@@ -101,37 +122,45 @@ exports.getAc_CctvDetails = async (req, res) => {
     }
 };
 
-exports.updateService=async(req,res)=>{
+exports.updateService = async (req, res) => {
     try {
         const { id } = req.params;
         const updatedstatus = await Ac_CctvDetailsSchema.findByIdAndUpdate(
-            id, 
-            { status:'completed' },
-            { new: true } 
+            id,
+            { status: 'completed' },
+            { new: true }
         )
+            .populate({ path: `userId`, select: ' name mobileNumber houseName' })
+            .populate({ path: 'Ac_cctvId', select: '-_id -createdAt -updatedAt -__v' })
+            .select(`-createdAt -updatedAt -__v`)
+
         if (!updatedstatus) {
             return res.status(404).json({ message: "service not found" });
         }
-        
+
         await updatedstatus.save();
         res.status(201).json(updatedstatus);
-  
+
     } catch (error) {
         console.error('Error updating service status:', error);
-        return res.status(500).json({ message: 'An error occurred while updating service status', error: error.message });     
+        return res.status(500).json({ message: 'An error occurred while updating service status', error: error.message });
     }
 }
 
 // delete service
-exports.deleteService=async(req,res)=>{
+exports.deleteService = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedService = await Ac_CctvDetailsSchema.findByIdAndDelete({_id:id})
+        const deletedService = await Ac_CctvDetailsSchema.findByIdAndDelete({ _id: id })
+            .populate({ path: `userId`, select: '-_id name mobileNumber houseName' })
+            .populate({ path: `Ac_cctvId`, select: '-_id service_type brand description' })
+            .select(`-createdAt -updatedAt -__v`)
+
         if (!deletedService) {
             return res.status(404).json({ message: "service not found" });
-        }
+        } 
         res.status(200).json(deletedService);
-  
+
     } catch (error) {
         console.error('Error deleting service :', error);
         return res.status(500).json({ message: 'An error occurred while deleting service ', error: error.message });
