@@ -5,15 +5,14 @@ const { jwtAuth, isAdmin } = require('../middleware/authMiddleware');
 
 
 
-// add cctv service
-router.post('/users/cctv/service/add',cctvController.addcctvDetails)
-// add ac service
-router.post('/users/ac/service/add',cctvController.addACDetails)
-// get ac-cctv service
-router.get('/admin/services',jwtAuth,isAdmin,cctvController.getAc_CctvDetails)
-// update service status
-router.put('/service/status/:id',jwtAuth,isAdmin,cctvController.updateService)
-// delete service status
-router.delete('/delete/service/:id',jwtAuth,isAdmin,cctvController.deleteService)
+router.get('/services', jwtAuth, isAdmin, cctvController.getAc_CctvDetails)
+
+router.post('/users/cctv-add', cctvController.addcctvDetails)
+
+router.post('/users/ac-add', cctvController.addACDetails)
+
+router.put('/service/status/:id', jwtAuth, isAdmin, cctvController.updateService)
+
+router.delete('/delete/service/:id', jwtAuth, isAdmin, cctvController.deleteService)
 
 module.exports = router;

@@ -29,7 +29,7 @@ app.use('/product-details', productDetails);
 
 // // User Routes
 app.use('/mobile',mobileDetails)
-app.use('/CCTV-Ac', cctvDetails);
+app.use('/CCTV-AC', cctvDetails);
 app.use('/accessory',accessoryDetails)
 
 // using upload folder that contain images
